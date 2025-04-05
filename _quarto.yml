@@ -9,7 +9,10 @@ website:
     left: 
       - href: index.qmd
         text: About
-      - resume.qmd
+      - href: resume.qmd
+        text: Resume
+      - href: projects.qmd
+        text: Projects
 
 format:
   html:

@@ -1,0 +1,51 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: Homework 1\n",
+        "author: Puja MAlik\n",
+        "---\n",
+        "\n",
+        "# A Question1\n"
+      ],
+      "id": "df7b27eb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "\n",
+        "# Equivalent of le3 in R (assuming le3 is a number, e.g., 1000)\n",
+        "le3 = 1000  # Change this as needed\n",
+        "\n",
+        "# Generate normally distributed data\n",
+        "x = np.random.normal(loc=0, scale=1, size=le3)\n",
+        "\n",
+        "# Plot histogram\n",
+        "plt.hist(x, bins=30, color='blue', edgecolor='black')\n",
+        "plt.title(\"Histogram of Normally Distributed Data\")\n",
+        "plt.xlabel(\"Value\")\n",
+        "plt.ylabel(\"Frequency\")\n",
+        "plt.show()"
+      ],
+      "id": "93070b57",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\pujak\\AppData\\Roaming\\Python\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

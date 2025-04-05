@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "resume.html",
+    "href": "resume.html",
+    "title": "Puja’s Resume",
+    "section": "",
+    "text": "Download PDF file."
+  },
+  {
     "objectID": "Index.html",
     "href": "Index.html",
     "title": "Puja’s Website",
@@ -12,27 +19,6 @@
     "title": "Puja’s Website",
     "section": "",
     "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
-  },
-  {
-    "objectID": "resume.html",
-    "href": "resume.html",
-    "title": "Puja’s Resume",
-    "section": "",
-    "text": "Download PDF file."
-  },
-  {
-    "objectID": "docs/blog.html",
-    "href": "docs/blog.html",
-    "title": "My Projects",
-    "section": "",
-    "text": "Homework 1\n\n\n\n\n\n\nPuja MAlik\n\n\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "docs/projects/HW1/index.html",
-    "href": "docs/projects/HW1/index.html",
-    "title": "Homework 1",
-    "section": "",
-    "text": "1 A Question1\n—{r} x &lt;- rnorm(le3) hist(x, col=“blue”)"
   },
   {
     "objectID": "blog.html",

@@ -6,7 +6,7 @@ website:
   title: "Puja's Website"
   navbar:
     left: 
-      - href: index.qmd
+      - href: Index.qmd
         text: About
       - href: resume.qmd
         text: Resume

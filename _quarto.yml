@@ -1,7 +1,6 @@
 project:
   type: website
   output-dir: docs
-  title: "Puja_MA"
 
 website:
   title: "Puja's Website"
@@ -11,7 +10,7 @@ website:
         text: About
       - href: resume.qmd
         text: Resume
-      - href: projects.qmd
+      - href: blog.qmd
         text: Projects
 
 format:

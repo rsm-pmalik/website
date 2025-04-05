@@ -13,5 +13,11 @@
   },
   "docs/projects/HW1/index.qmd": {
     "index.html": "fe66053d"
+  },
+  "blog.qmd": {
+    "blog.html": "aaea57fd"
+  },
+  "projects/HW1/index.qmd": {
+    "index.html": "e3eaebd4"
   }
 }

@@ -2,7 +2,7 @@
 title: "Puja's Website"
 about:
     template: jolla
-    image: "images/pmalik.png"
+    image: "pmalik.png"
     links: 
       - icon: envelop
         href: mailto:puja.malik@ucsd.edu

@@ -1,0 +1,26 @@
+---
+title: Homework 1
+author: Puja MAlik
+---
+
+# A Question1
+
+```{python}
+#| eval: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Equivalent of le3 in R (assuming le3 is a number, e.g., 1000)
+le3 = 1000  # Change this as needed
+
+# Generate normally distributed data
+x = np.random.normal(loc=0, scale=1, size=le3)
+
+# Plot histogram
+plt.hist(x, bins=30, color='blue', edgecolor='black')
+plt.title("Histogram of Normally Distributed Data")
+plt.xlabel("Value")
+plt.ylabel("Frequency")
+plt.show()
+```

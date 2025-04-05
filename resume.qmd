@@ -1,0 +1,5 @@
+---
+title: "Puja's Resume"
+---
+
+{{<pdf OtherFolder/2025_Resume_Puja.pdf width=100% height=800 >}}

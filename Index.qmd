@@ -1,0 +1,13 @@
+---
+title: "Puja's Website"
+about:
+    template: jolla
+    image: "images/pmalik.png"
+    links: 
+      - icon: envelop
+        href: mailto:puja.malik@ucsd.edu
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.

@@ -1,0 +1,25 @@
+project:
+  type: website
+  output-dir: docs
+  title: "Puja_MA"
+
+website:
+  title: "Puja's Website"
+  navbar:
+    left: 
+      - href: index.qmd
+        text: About
+      - resume.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: left
+    toc-depth: 2
+    number-sections: true
+    self-contained: true
+    css: styles.css
+
+
+

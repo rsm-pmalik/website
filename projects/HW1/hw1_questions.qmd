@@ -28,7 +28,7 @@ This project seeks to replicate their results.
 ### Description
 
 ```{python}
-#| echo: false
+#| echo: true
 #| eval: true
 #| code-tools: true
 
@@ -179,7 +179,7 @@ plt.tight_layout()
 plt.show()
 ```
 ```{python}
-#| echo: false
+#| echo: true
 
 from scipy.stats import ttest_ind
 import statsmodels.formula.api as smf
@@ -255,7 +255,7 @@ print("\nProbit regression result:\n", probit_model.summary())
 Next, I assess the effectiveness of different sizes of matched donations on the response rate.
 
 ```{python}
-#| echo: false
+#| echo: true
 #| warning: false
 #| message: false
 
@@ -299,14 +299,8 @@ print(f"2:1 − 1:1 = {mean_2to1 - mean_1to1:.4f}")
 print(f"3:1 − 2:1 = {mean_3to1 - mean_2to1:.4f}")
 ```
 ```
-> I analyzed whether higher match ratios increased the probability of donating among individuals in the treatment group. According to the raw data:
->
-> - The response rate for the **1:1 match** was approximately `X.XXX`.
-> - The response rate for the **2:1 match** was `X.XXX`.
-> - The response rate for the **3:1 match** was `X.XXX`.
->
-> The differences in response rates between 1:1 and 2:1 (`Δ = Y.YYY`) and between 2:1 and 3:1 (`Δ = Z.ZZZ`) were both **very small**.
->
+> I analyzed whether higher match ratios increased the probability of donating among individuals in the treatment group. 
+
 > Two-sample t-tests for each pair of match ratios yielded **p-values above 0.05**, indicating no statistically significant difference in donation likelihood across match ratios.
 >
 > I also ran a regression with `C(ratio)` as a categorical variable. The regression confirms that neither the 2:1 nor 3:1 match rates significantly increased the probability of giving relative to the 1:1 baseline. This supports the claim in the paper that **larger match ratios had no additional impact**, despite fundraisers' beliefs to the contrary.
@@ -320,7 +314,7 @@ print(f"3:1 − 2:1 = {mean_3to1 - mean_2to1:.4f}")
 In this subsection, I analyze the effect of the size of matched donation on the size of the charitable contribution.
 
 ```{python}
-#| echo: false
+#| echo: true
 #| warning: false
 #| message: false
 #| fig-cap: "Distribution of Donation Amounts Among Donors"
@@ -382,7 +376,7 @@ Further suppose that the true distribution of respondents who do get a charitabl
 ### Law of Large Numbers
 
 ```{python}
-#| echo: false
+#| echo: true
 #| fig-cap: "Cumulative Average Treatment Effect (Law of Large Numbers)"
 
 import numpy as np
@@ -421,7 +415,7 @@ plt.show()
 ### Central Limit Theorem
 
 ```{python}
-#| echo: false
+#| echo: true
 #| fig-cap: "Sampling Distributions at Varying Sample Sizes (CLT)"
 
 import matplotlib.pyplot as plt

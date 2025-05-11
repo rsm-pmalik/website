@@ -17,11 +17,10 @@ However, Blueprinty has collected data on 1,500 mature (non-startup) engineering
 
 ### Data
 
-_todo: Read in data._
 ```{python}
-#| echo: true
-#| eval: true
-#| code-tools: true
+#| echo: false
+#| message: false
+#| warning: false
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -37,11 +36,11 @@ plt.ylabel("Frequency")
 plt.show()
 ```
 
-_todo: Compare histograms and means of number of patents by customer status. What do you observe?_
+## Data Exploration
 ```{python}
-#| echo: true
-#| eval: true
-#| code-tools: true
+#| echo: false
+#| message: false
+#| warning: false
 
 plt.figure(figsize=(10, 5))
 sns.histplot(data=blueprinty, x="patents", hue="iscustomer", bins=15, kde=False, multiple="stack")
@@ -60,13 +59,14 @@ print(mean_patents_by_group)
 
 ```
 
+We observe that Blueprinty customers tend to have a higher mean number of patents compared to non-customers. However, since customers are not selected at random, it's important to account for other systematic differences—such as age and regional location—before attributing differences in patent output to Blueprinty usage.
+
 Blueprinty customers are not selected at random. It may be important to account for systematic differences in the age and regional location of customers vs non-customers.
 
-_todo: Compare regions and ages by customer status. What do you observe?_
 ```{python}
-#| echo: true
-#| eval: true
-#| code-tools: true
+#| echo: false
+#| message: false
+#| warning: false
 
 # Compare means
 mean_patents_by_group = blueprinty.groupby("iscustomer")["patents"].mean()
@@ -87,11 +87,31 @@ plt.ylabel("Firm Age")
 plt.show()
 ```
 
+We observe that Blueprinty customers may differ systematically in terms of geographic region and firm age. These differences should be accounted for in the regression analysis to avoid biased estimates of the effect of using Blueprinty's software.
+
 ### Estimation of Simple Poisson Model
 
 Since our outcome variable of interest can only be small integer values per a set unit of time, we can use a Poisson density to model the number of patents awarded to each engineering firm over the last 5 years. We start by estimating a simple Poisson model via Maximum Likelihood.
 
-_todo: Write down mathematically the likelihood for_ $Y \sim \text{Poisson}(\lambda)$. Note that $f(Y|\lambda) = e^{-\lambda}\lambda^Y/Y!$.
+The probability mass function for the Poisson distribution is:
+
+$$
+f(Y | \lambda) = \frac{e^{-\lambda} \lambda^Y}{Y!}
+$$
+
+Assuming observations are independent, the likelihood function for a sample of \(n\) firms is:
+
+$$
+L(\lambda) = \prod_{i=1}^{n} \frac{e^{-\lambda_i} \lambda_i^{y_i}}{y_i!}
+$$
+
+Taking the logarithm yields the log-likelihood:
+
+$$
+\ell(\lambda) = \sum_{i=1}^{n} \left( -\lambda_i + y_i \log(\lambda_i) - \log(y_i!) \right)
+$$
+
+In regression form, we model \(\lambda_i = \exp(X_i \beta)\) to ensure non-negativity.
 
 ### Poisson Likelihood Model
 
@@ -117,7 +137,6 @@ $$
 
 In regression form, we model \( \lambda_i = \exp(X_i \beta) \) to ensure non-negativity.
 
-_todo: Code the likelihood (or log-likelihood) function for the Poisson model. This is a function of lambda and Y. For example:_
 
 ```{python}
 def poisson_loglikelihood(lambda_, Y):
@@ -125,9 +144,12 @@ def poisson_loglikelihood(lambda_, Y):
     return np.sum(-lambda_ + Y * np.log(lambda_) - gammaln(Y + 1))
 ```
 
-_todo: Use your function to plot lambda on the horizontal axis and the likelihood (or log-likelihood) on the vertical axis for a range of lambdas (use the observed number of patents as the input for Y)._
+
 
 ```{python}
+#| echo: false
+#| message: false
+#| warning: false
 import numpy as np
 from scipy.special import gammaln
 
@@ -150,8 +172,7 @@ plt.show()
 
 ```
 
-_todo: If you're feeling mathematical, take the first derivative of your likelihood or log-likelihood, set it equal to zero and solve for lambda. You will find lambda_mle is Ybar, which "feels right" because the mean of a Poisson distribution is lambda._
-We can analytically find the maximum likelihood estimate of \( \lambda \) when \( \lambda \) is constant across observations. Taking the derivative of the log-likelihood with respect to \( \lambda \), setting it equal to zero, and solving gives:
+
 
 $$
 \hat{\lambda}_{\text{MLE}} = \bar{Y}
@@ -160,8 +181,11 @@ $$
 This result makes intuitive sense because the Poisson distribution's mean is \( \lambda \), so the sample mean is the natural estimator.
 
 
-_todo: Find the MLE by optimizing your likelihood function with optim() in R or sp.optimize() in Python._
+
 ```{python}
+#| echo: false
+#| message: false
+#| warning: false
 import numpy as np
 from scipy.special import gammaln
 from scipy.optimize import minimize
@@ -185,12 +209,14 @@ print("MLE for lambda:", result.x[0])
 
 Next, we extend our simple Poisson model to a Poisson Regression Model such that $Y_i = \text{Poisson}(\lambda_i)$ where $\lambda_i = \exp(X_i'\beta)$. The interpretation is that the success rate of patent awards is not constant across all firms ($\lambda$) but rather is a function of firm characteristics $X_i$. Specifically, we will use the covariates age, age squared, region, and whether the firm is a customer of Blueprinty.
 
-_todo: Update your likelihood or log-likelihood function with an additional argument to take in a covariate matrix X. Also change the parameter of the model from lambda to the beta vector. In this model, lambda must be a positive number, so we choose the inverse link function g_inv() to be exp() so that_ $\lambda_i = e^{X_i'\beta}$. _For example:_
 
 
 We now update our log-likelihood function to incorporate covariates using a beta vector:
 
 ```{python}
+#| echo: false
+#| message: false
+#| warning: false
 import numpy as np
 from scipy.special import gammaln
 from scipy.optimize import minimize
@@ -254,11 +280,10 @@ We now estimate the MLE of $\beta$ using numerical optimization:
 
 
 
-_todo: Use your function along with R's optim() or Python's sp.optimize() to find the MLE vector and the Hessian of the Poisson model with covariates. Specifically, the first column of X should be all 1's to enable a constant term in the model, and the subsequent columns should be age, age squared, binary variables for all but one of the regions, and the binary customer variable. Use the Hessian to find standard errors of the beta parameter estimates and present a table of coefficients and standard errors._
-
-_todo: Check your results using R's glm() function or Python sm.GLM() function._
-
 ```{python}
+#| echo: false
+#| message: false
+#| warning: false
 import statsmodels.api as sm  # Ensure sm is defined
 
 # Make sure all variables are clean
@@ -269,8 +294,11 @@ poisson_model = sm.GLM(y_glm, X_glm, family=sm.families.Poisson()).fit()
 print(poisson_model.summary())
 ```
 
-_todo: Interpret the results._ 
+## Predicted vs Actual Patents Plot
 ```{python}
+#| echo: false
+#| message: false
+#| warning: false
 # Predicted values using manually estimated beta
 pred_lambda = np.exp(X_matrix @ result.x)
 
@@ -283,8 +311,20 @@ plt.ylabel("Actual Patent Count")
 plt.grid(True)
 plt.show()
 ```
-_todo: What do you conclude about the effect of Blueprinty's software on patent success? Because the beta coefficients are not directly interpretable, it may help to create two fake datasets: X_0 and X_1 where X_0 is the X data but with iscustomer=0 for every observation and X_1 is the X data but with iscustomer=1 for every observation. Then, use X_0 and your fitted model to get the vector of predicted number of patents (y_pred_0) for every firm in the dataset, and use X_1 to get Y_pred_1 for every firm. Then subtract y_pred_1 minus y_pred_0 and take the average of that vector of differences._
+
+## Customer Effect Simulation
+
+To interpret the effect of Blueprinty’s software, we simulate predictions under two scenarios:
+
+All firms as non-customers (iscustomer = 0)
+
+All firms as customers (iscustomer = 1)
+
+We then compare the average predicted patent count across the two.
 ```{python}
+#| echo: false
+#| message: false
+#| warning: false
 # Create counterfactual datasets
 X_0 = X_vars.copy()
 X_1 = X_vars.copy()
@@ -322,6 +362,17 @@ print(f"Average difference in predicted patents from using Blueprinty's software
 
 ```
 
+### Interpretation and Insights
+
+To interpret the practical effect of Blueprinty's software, we simulated two scenarios: one where all firms were set as non-customers and one where all were set as customers. Using our fitted Poisson model, we predicted the number of patents for each firm under both conditions. The average difference in predicted patents—comparing the customer scenario to the non-customer scenario—provides an interpretable estimate of Blueprinty’s impact.
+
+This simulation revealed that, on average, firms using Blueprinty's software are predicted to produce approximately **{:.2f}** more patents".format(avg_diff)
+    }
+  ]
+} over five years. While this suggests a positive association between software usage and patent success, caution is warranted: this is observational data, and without random assignment, we cannot rule out unmeasured confounding.
+
+The coefficient on `age` indicates how patent count varies with age. The `iscustomer` effect captures group differences in innovation output. These findings offer insight into who produces more intellectual property. indicates how patent count varies with age. The `iscustomer` effect captures group differences in innovation output. These findings offer insight into who produces more intellectual property.
+
 ## AirBnB Case Study
 
 ### Introduction
@@ -339,9 +390,9 @@ We treat the number of reviews as a proxy for the number of bookings. Since this
 This helps us understand the factors that drive demand for Airbnb listings in New York City.
 
 ```{python}
-#| echo: true
-#| eval: true
-#| code-tools: true
+#| echo: false
+#| message: false
+#| warning: false
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -371,11 +422,25 @@ print(summary_stats)
     - `instant_bookable` = "t" if instantly bookable, "f" if not
 
 ::::
+## Exploratory Analysis and Modeling Strategy
 
+We treat the number of reviews as a proxy for the number of bookings. Since this is a count variable, a Poisson regression model is well-suited for capturing its relationship with various listing characteristics. Our approach includes:
 
-_todo: Assume the number of reviews is a good proxy for the number of bookings. Perform some exploratory data analysis to get a feel for the data, handle or drop observations with missing values on relevant variables, build one or more models (e.g., a poisson regression model for the number of bookings as proxied by the number of reviews), and interpret model coefficients to describe variation in the number of reviews as a function of the variables provided._
+Conducting exploratory data analysis to understand distributions and identify missing values.
+
+Filtering or imputing missing observations as needed.
+
+Fitting a Poisson regression model with predictors such as price, room type, and review scores.
+
+Interpreting the model coefficients to understand how each variable influences the expected number of bookings.
+
+This helps us understand the factors that drive demand for Airbnb listings in New York City.
+
 
 ```{python}
+#| echo: false
+#| message: false
+#| warning: false
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -395,6 +460,9 @@ plt.show()
 ```
 
 ```{python}
+#| echo: false
+#| message: false
+#| warning: false
 from scipy.optimize import minimize
 import numpy as np
 

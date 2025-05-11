@@ -22,5 +22,11 @@
   },
   "projects/HW1/hw1_questions.qmd": {
     "hw1_questions.html": "7c6f2e16"
+  },
+  "projects/MLE/hw2_questions.qmd": {
+    "hw2_questions.html": "0752246e"
+  },
+  "docs/projects/MLE/hw2_questions.qmd": {
+    "hw2_questions.html": "b0b7e1d9"
   }
 }

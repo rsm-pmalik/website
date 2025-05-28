@@ -317,7 +317,7 @@ def metropolis_sampler(X, y, groups, steps=11000):
 ```{python}
 # Run MCMC and discard burn-in
 samples = metropolis_sampler(X, y, groups)
-samples = samples[1000:]
+samples = samples[100:]
 
 # Posterior summary statistics
 param_names = ['brand_H', 'brand_P', 'ad', 'price']

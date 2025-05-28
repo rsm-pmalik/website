@@ -151,7 +151,7 @@
         "\n",
         ":::: {.callout-note collapse=\"true\"}"
       ],
-      "id": "484163e1"
+      "id": "e00db4fc"
     },
     {
       "cell_type": "code",
@@ -181,7 +181,7 @@
         "# Preview the reshaped data\n",
         "df.head()"
       ],
-      "id": "8d7841d6",
+      "id": "c1075154",
       "execution_count": null,
       "outputs": []
     },
@@ -194,7 +194,7 @@
         "\n",
         "## 4. Estimation via Maximum Likelihood\n"
       ],
-      "id": "11704a70"
+      "id": "d893a572"
     },
     {
       "cell_type": "code",
@@ -259,7 +259,7 @@
         "\n",
         "results_df.round(4)"
       ],
-      "id": "d5eb121f",
+      "id": "a42d5981",
       "execution_count": null,
       "outputs": []
     },
@@ -274,7 +274,7 @@
         "## 5. Estimation via Bayesian Methods\n",
         "### Load and Prepare Data"
       ],
-      "id": "4a1c2b77"
+      "id": "cc38dc43"
     },
     {
       "cell_type": "code",
@@ -296,7 +296,7 @@
         "y = df['choice'].values\n",
         "groups = len(y) // 3"
       ],
-      "id": "0282af9f",
+      "id": "9a1338a2",
       "execution_count": null,
       "outputs": []
     },
@@ -306,7 +306,7 @@
       "source": [
         "### Define Log-Likelihood, Log-Prior, and Log-Posterior"
       ],
-      "id": "e9956876"
+      "id": "8803ac41"
     },
     {
       "cell_type": "code",
@@ -338,7 +338,7 @@
         "def log_posterior(beta, X, y, groups):\n",
         "    return log_likelihood(beta, X, y, groups) + log_prior(beta)"
       ],
-      "id": "9910e2e8",
+      "id": "1ba504b0",
       "execution_count": null,
       "outputs": []
     },
@@ -348,7 +348,7 @@
       "source": [
         "### Define the MCMC Sampler"
       ],
-      "id": "7c6c2776"
+      "id": "c80088e4"
     },
     {
       "cell_type": "code",
@@ -379,7 +379,7 @@
         "    \n",
         "    return np.array(samples)"
       ],
-      "id": "b5ce588c",
+      "id": "9d70a7f4",
       "execution_count": null,
       "outputs": []
     },
@@ -389,7 +389,7 @@
       "source": [
         "###  Run the Sampler and Summarize Posterior"
       ],
-      "id": "357d6438"
+      "id": "0fcff72c"
     },
     {
       "cell_type": "code",
@@ -397,7 +397,7 @@
       "source": [
         "# Run MCMC and discard burn-in\n",
         "samples = metropolis_sampler(X, y, groups)\n",
-        "samples = samples[1000:]\n",
+        "samples = samples[100:]\n",
         "\n",
         "# Posterior summary statistics\n",
         "param_names = ['brand_H', 'brand_P', 'ad', 'price']\n",
@@ -415,7 +415,7 @@
         "\n",
         "#print(posterior_summary.round(4))"
       ],
-      "id": "b997fd35",
+      "id": "bbf52092",
       "execution_count": null,
       "outputs": []
     },
@@ -423,10 +423,41 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "###  Trace Plot and Histogram for Price\n",
+        "###  Trace Plot and Histogram for Price"
+      ],
+      "id": "c1456970"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "plt.figure(figsize=(12, 5))\n",
         "\n",
+        "# Trace plot\n",
+        "plt.subplot(1, 2, 1)\n",
+        "plt.plot(samples[:, 3])\n",
+        "plt.title(\"Trace Plot: Price Coefficient\")\n",
+        "plt.xlabel(\"Iteration\")\n",
+        "plt.ylabel(\"Value\")\n",
         "\n",
+        "# Histogram\n",
+        "plt.subplot(1, 2, 2)\n",
+        "plt.hist(samples[:, 3], bins=30, density=True)\n",
+        "plt.title(\"Posterior Histogram: Price Coefficient\")\n",
+        "plt.xlabel(\"Value\")\n",
+        "plt.ylabel(\"Density\")\n",
         "\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "id": "230a8941",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
         "_todo: code up a metropolis-hasting MCMC sampler of the posterior distribution. Take 11,000 steps and throw away the first 1,000, retaining the subsequent 10,000._\n",
         "\n",
         "_hint: Use N(0,5) priors for the betas on the binary variables, and a N(0,1) prior for the price beta._\n",
@@ -448,7 +479,7 @@
         "\n",
         "_todo: At a high level, discuss what change you would need to make in order to simulate data from --- and estimate the parameters of --- a multi-level (aka random-parameter or hierarchical) model. This is the model we use to analyze \"real world\" conjoint data._\n"
       ],
-      "id": "4a95b322"
+      "id": "d31e0c65"
     }
   ],
   "metadata": {

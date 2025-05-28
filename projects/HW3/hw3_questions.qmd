@@ -315,11 +315,16 @@ def metropolis_sampler(X, y, groups, steps=11000):
 
 ###  Run the Sampler and Summarize Posterior
 ```{python}
-# Run MCMC and discard burn-in
-samples = metropolis_sampler(X, y, groups)
+from IPython.display import display, Markdown
+import tabulate
+
+print("Starting MCMC sampling...")
+samples = metropolis_sampler(X, y, groups, steps=1100)
+print("Sampling complete. Discarding burn-in...")
+
 samples = samples[100:]
 
-# Posterior summary statistics
+print("Computing posterior summary statistics...")
 param_names = ['brand_H', 'brand_P', 'ad', 'price']
 posterior_means = samples.mean(axis=0)
 posterior_sds = samples.std(axis=0)
@@ -333,7 +338,11 @@ posterior_summary = pd.DataFrame({
     '95% CI Upper': posterior_cis[:, 1]
 })
 
-#print(posterior_summary.round(4))
+print("Summary complete.")
+
+# Render nicely using markdown table format
+markdown_table = tabulate.tabulate(posterior_summary.round(4), headers="keys", tablefmt="github")
+display(Markdown(f"```\n{markdown_table}\n```"))
 ```
 
 ###  Trace Plot and Histogram for Price
